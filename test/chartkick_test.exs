@@ -112,6 +112,12 @@ defmodule ChartkickTest do
     assert String.contains?(script, expected)
   end
 
+  test "chartkick_chart with chart options" do
+    script = Chartkick.chartkick_chart("", "{}", stacked: true, min: nil)
+    expected  = "{\"stacked\":true,\"min\":null}"
+    assert String.contains?(script, expected)
+  end
+
   # test "DEBUG" do
   #   script = Chartkick.chartkick_chart("", "{}", stacked: true)
   #   expected  = "1298312381askjdjaskdjaskdas2098"

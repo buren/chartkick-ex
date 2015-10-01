@@ -46,7 +46,7 @@ defmodule Chartkick do
     only   = options[:only]
     """
     #{unless only == :script, do: chartkick_tag(id, height)}
-    #{unless only == :html, do: chartkick_script(klass, id, data_source, options_json(options))}
+    #{unless only == :html, do: chartkick_script(klass, id, data_source, options_json(Enum.into(options, %{})))}
     """
   end
 
@@ -63,15 +63,23 @@ defmodule Chartkick do
   end
 
   defp options_json(opts) do
-    Poison.encode!(%ChartOptions{
-      min:      opts[:min],
-      max:      opts[:max],
-      colors:   opts[:colors],
-      stacked:  opts[:stacked],
-      discrete: opts[:discrete],
-      xtitle:   opts[:xtitle],
-      ytitle:   opts[:ytitle]
-    })
+    map = %{}
+    map = add_options_key(opts, map, :min)
+    map = add_options_key(opts, map, :max)
+    map = add_options_key(opts, map, :colors)
+    map = add_options_key(opts, map, :stacked)
+    map = add_options_key(opts, map, :discrete)
+    map = add_options_key(opts, map, :xtitle)
+    map = add_options_key(opts, map, :ytitle)
+    Poison.encode!(map)
+  end
+
+  defp add_options_key(opts, map, key) do
+    if Map.has_key?(opts, key) do
+      Dict.put(map, key, opts[key])
+    else
+      map
+    end
   end
 
 end
