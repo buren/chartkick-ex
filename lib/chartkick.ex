@@ -1,9 +1,4 @@
 defmodule Chartkick do
-  defmodule ChartOptions do
-    @derive [Poison.Encoder]
-    defstruct [:min, :max, :colors, :stacked, :discrete, :xtitle, :ytitle]
-  end
-
   def line_chart(data_source, options \\ []) do
     chartkick_chart("LineChart", data_source, options)
   end
