@@ -45,6 +45,22 @@ defmodule Chartkick do
     """
   end
 
+  def add_listener(id, action, func) do
+    """
+    <script type="text/javascript">
+    addChartkickListener = function(id, action, func){
+      var chartWrapper = Chartkick.charts[id];
+      if (!chartWrapper.chart){
+        setTimeout(function(){addChartkickListener(id, action, func)}, 500);
+      } else {
+        google.visualization.events.addListener(chartWrapper.chart, action, func);
+      }
+    }
+    addChartkickListener('#{id}', '#{action}', #{func});
+    </script>
+    """
+  end
+
   def chartkick_script(klass, id, data_source, options_json) do
     "<script type=\"text/javascript\">new Chartkick.#{klass}('#{id}', #{data_source}, #{options_json});</script>"
   end
