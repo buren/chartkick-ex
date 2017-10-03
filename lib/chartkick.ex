@@ -15,7 +15,7 @@ defmodule Chartkick do
   )
 
   def chartkick_chart(klass, data_source, options \\ []) do
-    id     = Keyword.get(options, :id, generate_element_id())
+    id     = Keyword.get_lazy(options, :id, &UUID.uuid4/0)
     height = Keyword.get(options, :height, "300px")
     only   = Keyword.get(options, :only)
     case only do
