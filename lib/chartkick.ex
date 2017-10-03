@@ -36,14 +36,19 @@ defmodule Chartkick do
   end
 
   def chartkick_chart(klass, data_source, options \\ []) do
-    id     = options[:id] || generate_element_id()
-    height = options[:height] || "300px"
-    only   = options[:only]
-    """
-    #{unless only == :script, do: chartkick_tag(id, height)}
-    #{unless only == :html, do: chartkick_script(klass, id, data_source, options_json(options))}
-    """
+    id     = Keyword.get(options, :id, generate_element_id())
+    height = Keyword.get(options, :height, "300px")
+    only   = Keyword.get(options, :only)
+    case only do
+      :html   -> chartkick_tag(id, height)
+      :script -> chartkick_script(klass, id, data_source, options_json(options))
+      _       -> """
+                 #{ chartkick_tag(id, height) }
+                 #{ chartkick_script(klass, id, data_source, options_json(options)) }
+                 """
+    end
   end
+
 
   def chartkick_script(klass, id, data_source, options_json) do
     "<script type=\"text/javascript\">new Chartkick.#{klass}('#{id}', #{data_source}, #{options_json});</script>"
