@@ -1,39 +1,18 @@
 defmodule Chartkick do
-  def line_chart(data_source, options \\ []) do
-    chartkick_chart("LineChart", data_source, options)
+  gen_chart_fn = fn (chart_type) ->
+    def unquote(
+      chart_type
+      |> Macro.underscore
+      |> String.to_atom
+    )(data_source, options \\ []) do
+      chartkick_chart(unquote(chart_type), data_source, options)
+    end
   end
 
-  def pie_chart(data_source, options \\ []) do
-    chartkick_chart("PieChart", data_source, options)
-  end
-
-  def column_chart(data_source, options \\ []) do
-    chartkick_chart("ColumnChart", data_source, options)
-  end
-
-  def bar_chart(data_source, options \\ []) do
-    chartkick_chart("BarChart", data_source, options)
-  end
-
-  def area_chart(data_source, options \\ []) do
-    chartkick_chart("AreaChart", data_source, options)
-  end
-
-  def combo_chart(data_source, options \\ []) do
-    chartkick_chart("ComboChart", data_source, options)
-  end
-
-  def geo_chart(data_source, options \\ []) do
-    chartkick_chart("GeoChart", data_source, options)
-  end
-
-  def scatter_chart(data_source, options \\ []) do
-    chartkick_chart("ScatterChart", data_source, options)
-  end
-
-  def timeline(data_source, options \\ []) do
-    chartkick_chart("Timeline", data_source, options)
-  end
+  Enum.map(
+    ~w(LineChart PieChart BarChart AreaChart ColumnChart ComboChart GeoChart ScatterChart Timeline),
+    gen_chart_fn
+  )
 
   def chartkick_chart(klass, data_source, options \\ []) do
     id     = Keyword.get(options, :id, generate_element_id())
