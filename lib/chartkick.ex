@@ -1,4 +1,6 @@
 defmodule Chartkick do
+  require EEx
+
   gen_chart_fn = fn (chart_type) ->
     def unquote(
       chart_type
@@ -28,18 +30,19 @@ defmodule Chartkick do
     end
   end
 
+  EEx.function_from_string(
+    :def,
+    :chartkick_script,
+    ~s[<script type="text/javascript">new Chartkick.<%= klass %>('<%= id %>', <%= data_source %>, <%= options_json %>);</script>],
+    ~w(klass id data_source options_json)a
+  )
 
-  def chartkick_script(klass, id, data_source, options_json) do
-    "<script type=\"text/javascript\">new Chartkick.#{klass}('#{id}', #{data_source}, #{options_json});</script>"
-  end
-
-  def chartkick_tag(id, height) do
-    "<div id=\"#{id}\" style=\"height: #{height}; text-align: center; color: #999; line-height: #{height}; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;\">Loading...</div>"
-  end
-
-  defp generate_element_id do
-    UUID.uuid4()
-  end
+  EEx.function_from_string(
+    :def,
+    :chartkick_tag,
+    ~s[<div id="<%= id %>" style="height: <%= height %>; text-align: center; color: #999; line-height: <%= height %>; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;">Loading...</div>],
+    ~w(id height)a
+  )
 
   @options ~w(min max colors stacked discrete xtitle ytitle)a
   defp options_json(opts) do
