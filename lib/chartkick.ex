@@ -1,80 +1,55 @@
 defmodule Chartkick do
-  def line_chart(data_source, options \\ []) do
-    chartkick_chart("LineChart", data_source, options)
+  require EEx
+
+  gen_chart_fn = fn (chart_type) ->
+    def unquote(
+      chart_type
+      |> Macro.underscore
+      |> String.to_atom
+    )(data_source, options \\ []) do
+      chartkick_chart(unquote(chart_type), data_source, options)
+    end
   end
 
-  def pie_chart(data_source, options \\ []) do
-    chartkick_chart("PieChart", data_source, options)
-  end
-
-  def column_chart(data_source, options \\ []) do
-    chartkick_chart("ColumnChart", data_source, options)
-  end
-
-  def bar_chart(data_source, options \\ []) do
-    chartkick_chart("BarChart", data_source, options)
-  end
-
-  def area_chart(data_source, options \\ []) do
-    chartkick_chart("AreaChart", data_source, options)
-  end
-
-  def combo_chart(data_source, options \\ []) do
-    chartkick_chart("ComboChart", data_source, options)
-  end
-
-  def geo_chart(data_source, options \\ []) do
-    chartkick_chart("GeoChart", data_source, options)
-  end
-
-  def scatter_chart(data_source, options \\ []) do
-    chartkick_chart("ScatterChart", data_source, options)
-  end
-
-  def timeline(data_source, options \\ []) do
-    chartkick_chart("Timeline", data_source, options)
-  end
+  Enum.map(
+    ~w(LineChart PieChart BarChart AreaChart ColumnChart ComboChart GeoChart ScatterChart Timeline),
+    gen_chart_fn
+  )
 
   def chartkick_chart(klass, data_source, options \\ []) do
-    id     = options[:id] || generate_element_id
-    height = options[:height] || "300px"
-    only   = options[:only]
-    """
-    #{unless only == :script, do: chartkick_tag(id, height)}
-    #{unless only == :html, do: chartkick_script(klass, id, data_source, options_json(Enum.into(options, %{})))}
-    """
-  end
-
-  def chartkick_script(klass, id, data_source, options_json) do
-    "<script type=\"text/javascript\">new Chartkick.#{klass}('#{id}', #{data_source}, #{options_json});</script>"
-  end
-
-  def chartkick_tag(id, height) do
-    "<div id=\"#{id}\" style=\"height: #{height}; text-align: center; color: #999; line-height: #{height}; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;\">Loading...</div>"
-  end
-
-  defp generate_element_id do
-    UUID.uuid4()
-  end
-
-  defp options_json(opts) do
-    map = %{}
-    map = add_options_key(opts, map, :min)
-    map = add_options_key(opts, map, :max)
-    map = add_options_key(opts, map, :colors)
-    map = add_options_key(opts, map, :stacked)
-    map = add_options_key(opts, map, :discrete)
-    map = add_options_key(opts, map, :xtitle)
-    map = add_options_key(opts, map, :ytitle)
-    Poison.encode!(map)
-  end
-
-  defp add_options_key(opts, map, key) do
-    if Map.has_key?(opts, key) do
-      Dict.put(map, key, opts[key])
-    else
-      map
+    id     = Keyword.get_lazy(options, :id, &UUID.uuid4/0)
+    height = Keyword.get(options, :height, "300px")
+    only   = Keyword.get(options, :only)
+    case only do
+      :html   -> chartkick_tag(id, height)
+      :script -> chartkick_script(klass, id, data_source, options_json(options))
+      _       -> """
+                 #{ chartkick_tag(id, height) }
+                 #{ chartkick_script(klass, id, data_source, options_json(options)) }
+                 """
     end
+  end
+
+  EEx.function_from_string(
+    :def,
+    :chartkick_script,
+    ~s[<script type="text/javascript">new Chartkick.<%= klass %>('<%= id %>', <%= data_source %>, <%= options_json %>);</script>],
+    ~w(klass id data_source options_json)a
+  )
+
+  EEx.function_from_string(
+    :def,
+    :chartkick_tag,
+    ~s[<div id="<%= id %>" style="height: <%= height %>; text-align: center; color: #999; line-height: <%= height %>; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;">Loading...</div>],
+    ~w(id height)a
+  )
+
+  @options ~w(min max colors stacked discrete xtitle ytitle)a
+  defp options_json(opts) do
+    opts
+    |> Keyword.take(@options)
+    |> Enum.into(%{})
+    |> Poison.encode!()
   end
 
 end
