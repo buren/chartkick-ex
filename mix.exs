@@ -7,6 +7,9 @@ defmodule Chartkick.Mixfile do
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     package: package,
+     description: description,
+     licenses: "MIT",
      deps: deps()]
   end
 
@@ -15,6 +18,22 @@ defmodule Chartkick.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     [applications: [:logger]]
+  end
+
+  defp description do
+    """
+    Create beautiful JavaScript charts with one line of Elixir
+    """
+  end
+
+  defp package do
+    [
+      licenses: ["MIT"],
+      maintainers: ["Jacob Burenstam"],
+      links: %{
+        "GitHub" => "https://github.com/buren/chartkick-ex"
+      }
+    ]
   end
 
   # Dependencies can be Hex packages:
