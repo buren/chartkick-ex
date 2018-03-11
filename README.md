@@ -2,7 +2,7 @@
 
 Create beautiful Javascript charts with one line of Elixir. No more fighting with charting libraries!
 
-[See it in action](http://buren.github.io/chartkick-ex/), you can find the example phoenix app that generates that page [here](https://github.com/buren/chartkick-phoenix-example). 
+[See it in action](http://buren.github.io/chartkick-ex/), you can find the example phoenix app that generates that page [here](https://github.com/buren/chartkick-phoenix-example).
 
 Works with Phoenix, plain Elixir and most browsers (including IE 6).
 
@@ -154,7 +154,7 @@ Chartkick.line_chart "{
 Add the following to your project :deps list:
 
 ```elixir
-{:chartkick, "~>0.0.2"}
+{:chartkick, "~>0.1.0"}
 ```
 
 By default when you render a chart it will return both the HTML-element and JS that initializes the chart.
