@@ -7,8 +7,8 @@ defmodule Chartkick.Mixfile do
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     package: package,
-     description: description,
+     package: package(),
+     description: description(),
      licenses: "MIT",
      deps: deps()]
   end
