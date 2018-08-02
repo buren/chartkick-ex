@@ -123,10 +123,4 @@ defmodule ChartkickTest do
     expected  = "{\"library\":{\"backgroundColor\":\"#eee\"}}"
     assert String.contains?(script, expected)
   end
-
-  # test "DEBUG" do
-  #   script = Chartkick.chartkick_chart("", "{}", stacked: true)
-  #   expected  = "1298312381askjdjaskdjaskdas2098"
-  #   assert script == expected
-  # end
 end
