@@ -1,3 +1,23 @@
+### 0.2.0
+
+* Support all Chartkick chart options; adds
+  - curve
+  - dataset
+  - decimal
+  - donut
+  - download
+  - label
+  - legend
+  - library
+  - messages
+  - points
+  - prefix
+  - refresh
+  - suffix
+  - thousands
+  - title
+  - xtype
+
 ### 0.1.0
 
 * See [PR#3](https://github.com/buren/chartkick-ex/pull/3) - Thank you @mbenatti and @nimish-mehta
