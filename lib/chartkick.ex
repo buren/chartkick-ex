@@ -44,7 +44,7 @@ defmodule Chartkick do
     ~w(id height)a
   )
 
-  @options ~w(min max colors stacked discrete xtitle ytitle)a
+  @options ~w(min max colors stacked discrete xtitle ytitle legend library)a
   defp options_json(opts) do
     opts
     |> Keyword.take(@options)

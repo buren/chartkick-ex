@@ -113,8 +113,14 @@ defmodule ChartkickTest do
   end
 
   test "chartkick_chart with chart options" do
-    script = Chartkick.chartkick_chart("", "{}", stacked: true, min: nil)
-    expected  = "{\"stacked\":true,\"min\":null}"
+    script = Chartkick.chartkick_chart("", "{}", stacked: true, min: nil, legend: false)
+    expected  = "{\"stacked\":true,\"min\":null,\"legend\":false}"
+    assert String.contains?(script, expected)
+  end
+
+  test "chartkick_chart with chart library option" do
+    script = Chartkick.chartkick_chart("", "{}", library: %{ backgroundColor: "#eee" })
+    expected  = "{\"library\":{\"backgroundColor\":\"#eee\"}}"
     assert String.contains?(script, expected)
   end
 
