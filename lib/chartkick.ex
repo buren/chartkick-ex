@@ -44,7 +44,7 @@ defmodule Chartkick do
     ~w(id height)a
   )
 
-  @options ~w(min max colors stacked discrete xtitle ytitle legend library)a
+  @options ~w(colors curve dataset decimal discrete donut download label legend library max messages min points prefix refresh stacked suffix thousands title xtitle xtype ytitle)a
   defp options_json(opts) do
     opts
     |> Keyword.take(@options)
