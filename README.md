@@ -80,6 +80,8 @@ And respond with data as JSON.
 
 ### Options
 
+:information_source: _This implementation aims to support all options that [chartkick.js](https://github.com/ankane/chartkick.js) supports. If there are any missing, please open an issue or a PR._
+
 Id and height
 
 ```elixir
@@ -197,9 +199,12 @@ To specify a language for Google Charts, add:
 
 Check out
 
-* JS [chartkick.js](https://github.com/ankane/chartkick.js)
-* Ruby [chartkick](https://github.com/ankane/chartkick)
-* Python [chartkick.py](https://github.com/mher/chartkick.py)
+* [JavaScript](https://github.com/ankane/chartkick.js)
+  - [React](https://github.com/yfractal/chartkick)
+  - [Vue.js](https://github.com/yfractal/chartkick)
+* [Ruby](https://github.com/ankane/chartkick)
+* [Python](https://github.com/mher/chartkick.py)
+* [Clojure](https://github.com/yfractal/chartkick)
 
 ## History
 
