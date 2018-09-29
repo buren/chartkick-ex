@@ -59,7 +59,7 @@ defmodule ChartkickTest do
   test "chartkick_chart contains HTML-tag styling" do
     height = "42px"
     script = Chartkick.chartkick_chart("", "{}", height: height)
-    expected = "style=\"height: #{height}; text-align: center; color: #999; line-height: #{height};"
+    expected = "style=\"width: 100%; height: #{height}; text-align: center; color: #999; line-height: #{height};"
     assert String.contains?(script, expected)
   end
 
@@ -72,6 +72,12 @@ defmodule ChartkickTest do
   test "chartkick_chart returns with custom height set" do
     script = Chartkick.chartkick_chart("", "{}", height: "400px")
     expected  = "height: 400px"
+    assert String.contains?(script, expected)
+  end
+
+  test "chartkick_chart returns with custom width set" do
+    script = Chartkick.chartkick_chart("", "{}", width: "99%")
+    expected  = "width: 99%"
     assert String.contains?(script, expected)
   end
 
