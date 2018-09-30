@@ -4,9 +4,9 @@ Create beautiful Javascript charts with one line of Elixir. No more fighting wit
 
 [See it in action](http://buren.github.io/chartkick-ex/), you can find the example phoenix app that generates that page [here](https://github.com/buren/chartkick-phoenix-example).
 
-Works with Phoenix, plain Elixir and most browsers (including IE 6).
+Works with Phoenix, plain Elixir and most browsers.
 
-I'm _very_ new to Elixir, so if you have any feedback, suggestions or comments please open an issue or PR!
+Any feedback, suggestions or comments please open an issue or PR.
 
 ## Charts
 
@@ -82,10 +82,10 @@ And respond with data as JSON.
 
 :information_source: _This implementation aims to support all options that [chartkick.js](https://github.com/ankane/chartkick.js) supports. If there are any missing, please open an issue or a PR._
 
-Id and height
+Id, width and height
 
 ```elixir
-Chartkick.line_chart data, id: "users-chart", height: "500px"
+Chartkick.line_chart data, id: "users-chart", height: "500px", width: "50%"
 ```
 
 Min and max values

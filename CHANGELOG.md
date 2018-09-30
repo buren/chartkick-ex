@@ -1,3 +1,7 @@
+### HEAD
+
+* Support `width` option [PR#7](https://github.com/buren/chartkick-ex/pull/7)
+
 ### 0.2.0
 
 * Support all Chartkick chart options; adds
