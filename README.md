@@ -120,6 +120,12 @@ Axis titles
 Chartkick.line_chart data, xtitle: "Time", ytitle: "Population"
 ```
 
+Defer chart creation until after the page loads
+
+```elixir
+Chartkick.line_chart data, defer: true
+```
+
 The current implementation does unfortunately not allow you to pass options directly to the charting library yet.. PRs are welcome!
 
 See the documentation for [Google Charts](https://developers.google.com/chart/interactive/docs/gallery) and [Highcharts](http://api.highcharts.com/highcharts) for more info.
