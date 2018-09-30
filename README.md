@@ -1,4 +1,4 @@
-# Chartkick
+# Chartkick [![Build Status](https://travis-ci.com/buren/chartkick-ex.svg?branch=master)](https://travis-ci.com/buren/chartkick-ex)
 
 Create beautiful Javascript charts with one line of Elixir. No more fighting with charting libraries!
 
