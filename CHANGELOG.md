@@ -1,5 +1,6 @@
 ### HEAD
 
+* Support `defer` option [PR#8](https://github.com/buren/chartkick-ex/pull/8)
 * Support `width` option [PR#7](https://github.com/buren/chartkick-ex/pull/7)
 
 ### 0.2.0
