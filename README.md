@@ -120,15 +120,85 @@ Axis titles
 Chartkick.line_chart data, xtitle: "Time", ytitle: "Population"
 ```
 
+Straight lines between points instead of a curve
+
+```elixir
+Chartkick.line_chart data, curve: false
+```
+
+Hide points
+
+```elixir
+Chartkick.line_chart data, points: false
+```
+
+Show or hide legend
+
+```elixir
+Chartkick.line_chart data, legend: false
+```
+
+Specify legend position
+
+```elixir
+Chartkick.line_chart data, legend: "bottom"
+```
+
 Defer chart creation until after the page loads
 
 ```elixir
 Chartkick.line_chart data, defer: true
 ```
 
-The current implementation does unfortunately not allow you to pass options directly to the charting library yet.. PRs are welcome!
+Donut chart
+
+```elixir
+Chartkick.pie_chart data, donut: true
+```
+
+Prefix, useful for currency - _Chart.js, Highcharts_
+
+```elixir
+Chartkick.line_chart data, prefix: "$"
+```
+
+Suffix, useful for percentages - _Chart.js, Highcharts_
+
+```elixir
+Chartkick.line_chart data, suffix: "%"
+```
+
+Set a thousands separator - _Chart.js, Highcharts_
+
+```elixir
+Chartkick.line_chart data, decimal: ","
+```
+
+Show a message when data is empty
+
+```elixir
+Chartkick.line_chart data, messages: %{ empty: "My message.."}
+```
+
+Refresh data from a remote source every `n` seconds
+
+```elixir
+Chartkick.line_chart data, refresh: 60
+```
+
+You can pass options directly to the charting library with:
+
+```elixir
+Chartkick.line_chart data, library: %{ backgroundColor: "#eee" }
+```
 
 See the documentation for [Google Charts](https://developers.google.com/chart/interactive/docs/gallery) and [Highcharts](http://api.highcharts.com/highcharts) for more info.
+
+To customize datasets in Chart.js, use:
+
+```elixir
+Chartkick.line_chart data, dataset: %{ borderWidth: 10 }
+```
 
 ### Data
 
