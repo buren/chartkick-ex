@@ -21,12 +21,13 @@ defmodule Chartkick do
     height = Keyword.get(options, :height, "300px")
     width  = Keyword.get(options, :width, "100%")
     only   = Keyword.get(options, :only)
+    defer  = Keyword.get(options, :defer, false)
     case only do
       :html   -> chartkick_tag(id, height, width)
-      :script -> chartkick_script(klass, id, data_source, options_json(options))
+      :script -> chartkick_script(klass, id, data_source, options_json(options), defer)
       _       -> """
                  #{ chartkick_tag(id, height, width) }
-                 #{ chartkick_script(klass, id, data_source, options_json(options)) }
+                 #{ chartkick_script(klass, id, data_source, options_json(options), defer) }
                  """
     end
   end
@@ -34,8 +35,15 @@ defmodule Chartkick do
   EEx.function_from_string(
     :def,
     :chartkick_script,
-    ~s[<script type="text/javascript">new Chartkick.<%= klass %>('<%= id %>', <%= data_source %>, <%= options_json %>);</script>],
-    ~w(klass id data_source options_json)a
+    ~s[<script type="text/javascript">
+      <%= if defer do
+          chartkick_defer_create_js(klass, id, data_source, options_json)
+        else
+          chartkick_create_js(klass, id, data_source, options_json)
+        end
+      %>
+    </script>],
+    ~w(klass id data_source options_json defer)a
   )
 
   EEx.function_from_string(
@@ -43,6 +51,31 @@ defmodule Chartkick do
     :chartkick_tag,
     ~s[<div id="<%= id %>" style="width: <%= width %>; height: <%= height %>; text-align: center; color: #999; line-height: <%= height %>; font-size: 14px; font-family: 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, Helvetica, sans-serif;">Loading...</div>],
     ~w(id height width)a
+  )
+
+  EEx.function_from_string(
+    :def,
+    :chartkick_create_js,
+    ~s[new Chartkick.<%= klass %>('<%= id %>', <%= data_source %>, <%= options_json %>);],
+    ~w(klass id data_source options_json)a
+  )
+
+  EEx.function_from_string(
+    :def,
+    :chartkick_defer_create_js,
+    ~s[
+      (function() {
+        var createChart = function() { <%= chartkick_create_js(klass, id, data_source, options_json) %> };
+        if (window.addEventListener) {
+          window.addEventListener("load", createChart, true);
+        } else if (window.attachEvent) {
+          window.attachEvent("onload", createChart);
+        } else {
+          createChart();
+        }
+      })();
+    ],
+    ~w(klass id data_source options_json)a
   )
 
   @options ~w(colors curve dataset decimal discrete donut download label legend library max messages min points prefix refresh stacked suffix thousands title xtitle xtype ytitle)a
