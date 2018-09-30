@@ -156,7 +156,7 @@ Chartkick.line_chart "{
 Add the following to your project :deps list:
 
 ```elixir
-{:chartkick, "~>0.2.0"}
+{:chartkick, "~>0.3.0"}
 ```
 
 By default when you render a chart it will return both the HTML-element and JS that initializes the chart.
