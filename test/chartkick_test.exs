@@ -136,6 +136,24 @@ defmodule ChartkickTest do
     assert String.contains?(script, expected)
   end
 
+  test "chartkick_chart with chart messages option" do
+    script = Chartkick.chartkick_chart("", "{}", messages: %{:empty => "My message.."})
+    expected = "{\"messages\":{\"empty\":\"My message..\"}}"
+    assert String.contains?(script, expected)
+  end
+
+  test "chartkick_chart with chart label option as string" do
+    script = Chartkick.chartkick_chart("", "{}", legend: "bottom")
+    expected  = "{\"legend\":\"bottom\"}"
+    assert String.contains?(script, expected)
+  end
+
+  test "chartkick_chart with chart label option as boolean" do
+    script = Chartkick.chartkick_chart("", "{}", legend: false)
+    expected  = "{\"legend\":false}"
+    assert String.contains?(script, expected)
+  end
+
   test "chartkick_chart with chart options" do
     script = Chartkick.chartkick_chart("", "{}", stacked: true, min: nil, legend: false)
     expected  = "{\"stacked\":true,\"min\":null,\"legend\":false}"
@@ -151,6 +169,12 @@ defmodule ChartkickTest do
   test "chartkick_chart with chart library option" do
     script = Chartkick.chartkick_chart("", "{}", library: %{ backgroundColor: "#eee" })
     expected  = "{\"library\":{\"backgroundColor\":\"#eee\"}}"
+    assert String.contains?(script, expected)
+  end
+
+  test "chartkick_chart with chart dataset option" do
+    script = Chartkick.chartkick_chart("", "{}", dataset: %{ borderWidth: 10 })
+    expected  = "{\"dataset\":{\"borderWidth\":10}}"
     assert String.contains?(script, expected)
   end
 end
