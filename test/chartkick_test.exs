@@ -105,6 +105,18 @@ defmodule ChartkickTest do
     assert String.ends_with?(script, expected)
   end
 
+  test "chartkick_script accepts options as string" do
+    script = Chartkick.chartkick_script("", "", "{}", "{}", false)
+    expected = "</script>"
+    assert String.ends_with?(script, expected)
+  end
+
+  test "chartkick_script accepts options as keyword list" do
+    script = Chartkick.chartkick_script("", "", "{}", [title: "FooBarBaz"], false)
+    expected = "\"title\":\"FooBarBaz\""
+    assert String.contains?(script, expected)
+  end
+
   test "chartkick_script defer adds event listener JS code" do
     script = Chartkick.chartkick_script("LineChart", "", "{}", "{}", true)
     expected = "window.addEventListener(\"load\", createChart, true);"

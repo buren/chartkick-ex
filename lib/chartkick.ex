@@ -1,5 +1,6 @@
 defmodule Chartkick do
   require EEx
+  @json_serializer Poison
 
   gen_chart_fn = fn (chart_type) ->
     def unquote(
@@ -24,10 +25,10 @@ defmodule Chartkick do
     defer  = Keyword.get(options, :defer, false)
     case only do
       :html   -> chartkick_tag(id, height, width)
-      :script -> chartkick_script(klass, id, data_source, options_json(options), defer)
+      :script -> chartkick_script(klass, id, data_source, options, defer)
       _       -> """
                  #{ chartkick_tag(id, height, width) }
-                 #{ chartkick_script(klass, id, data_source, options_json(options), defer) }
+                 #{ chartkick_script(klass, id, data_source, options, defer) }
                  """
     end
   end
@@ -37,13 +38,13 @@ defmodule Chartkick do
     :chartkick_script,
     ~s[<script type="text/javascript">
       <%= if defer do
-          chartkick_defer_create_js(klass, id, data_source, options_json)
+          chartkick_defer_create_js(klass, id, data_source, options)
         else
-          chartkick_create_js(klass, id, data_source, options_json)
+          chartkick_create_js(klass, id, data_source, options)
         end
       %>
     </script>],
-    ~w(klass id data_source options_json defer)a
+    ~w(klass id data_source options defer)a
   )
 
   EEx.function_from_string(
@@ -56,8 +57,8 @@ defmodule Chartkick do
   EEx.function_from_string(
     :def,
     :chartkick_create_js,
-    ~s[new Chartkick.<%= klass %>('<%= id %>', <%= data_source %>, <%= options_json %>);],
-    ~w(klass id data_source options_json)a
+    ~s[new Chartkick.<%= klass %>('<%= id %>', <%= data_source %>, <%= options_json(options) %>);],
+    ~w(klass id data_source options)a
   )
 
   EEx.function_from_string(
@@ -65,7 +66,7 @@ defmodule Chartkick do
     :chartkick_defer_create_js,
     ~s[
       (function() {
-        var createChart = function() { <%= chartkick_create_js(klass, id, data_source, options_json) %> };
+        var createChart = function() { <%= chartkick_create_js(klass, id, data_source, options) %> };
         if (window.addEventListener) {
           window.addEventListener("load", createChart, true);
         } else if (window.attachEvent) {
@@ -75,15 +76,18 @@ defmodule Chartkick do
         }
       })();
     ],
-    ~w(klass id data_source options_json)a
+    ~w(klass id data_source options)a
   )
 
   @options ~w(colors curve dataset decimal discrete donut download label legend library max messages min points prefix refresh stacked suffix thousands title xtitle xtype ytitle)a
-  defp options_json(opts) do
+  defp options_json(opts) when is_list(opts) do
     opts
     |> Keyword.take(@options)
     |> Enum.into(%{})
-    |> Poison.encode!()
+    |> @json_serializer.encode!()
   end
 
+  defp options_json(opts) when is_bitstring(opts) do
+    opts
+  end
 end
