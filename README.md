@@ -235,6 +235,13 @@ Add the following to your project :deps list:
 {:chartkick, "~>0.3.0"}
 ```
 
+Optionally, you can set different JSON encoder, by default it's Poison.
+It's used to encode options passed to Chartkick.
+```
+# config.exs
+config :chartkick, json_serializer: Jason
+```
+
 By default when you render a chart it will return both the HTML-element and JS that initializes the chart.
 This will only work if you load Chartkick in the `<head>` tag.
 You can chose to render the JS & HTML separately using the `only: :html` or `only: :script` option.
