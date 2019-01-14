@@ -1,6 +1,5 @@
 defmodule Chartkick do
   require EEx
-  @json_serializer Poison
 
   gen_chart_fn = fn (chart_type) ->
     def unquote(
@@ -84,7 +83,7 @@ defmodule Chartkick do
     opts
     |> Keyword.take(@options)
     |> Enum.into(%{})
-    |> @json_serializer.encode!()
+    |> Poison.encode!()
   end
 
   defp options_json(opts) when is_bitstring(opts) do
