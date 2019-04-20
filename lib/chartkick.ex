@@ -2,10 +2,10 @@ defmodule Chartkick do
   require EEx
   Module.put_attribute(
     __MODULE__,
-    :poison,
-    if(Code.ensure_loaded?(Poison), do: Poison, else: nil)
+    :jason,
+    if(Code.ensure_loaded?(Jason), do: Jason, else: nil)
   )
-  @json_serializer Application.get_env(:chartkick, :json_serializer) || @poison
+  @json_serializer Application.get_env(:chartkick, :json_serializer) || @jason
 
   gen_chart_fn = fn (chart_type) ->
     def unquote(

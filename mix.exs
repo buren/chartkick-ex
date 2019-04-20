@@ -46,7 +46,9 @@ defmodule Chartkick.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    [{ :uuid, "~> 1.1" },
-     {:poison, "~> 3.0"}]
+    [
+      {:uuid, "~> 1.1"},
+      {:jason, "~> 1.1"}
+    ]
   end
 end

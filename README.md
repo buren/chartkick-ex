@@ -13,7 +13,7 @@ Any feedback, suggestions or comments please open an issue or PR.
 All charts expect a JSON string.
 
 ```elixir
-data = Poison.encode!([[175, 60], [190, 80], [180, 75]])
+data = Jason.encode!([[175, 60], [190, 80], [180, 75]])
 ```
 
 Line chart
@@ -55,7 +55,7 @@ Chartkick.scatter_chart data
 Geo chart
 
 ```elixir
-Chartkick.geo_chart Poison.encode!("[[\"United States\",44],[\"Germany\",23]]")
+Chartkick.geo_chart Jason.encode!("[[\"United States\",44],[\"Germany\",23]]")
 ```
 
 Timeline
@@ -235,11 +235,11 @@ Add the following to your project :deps list:
 {:chartkick, "~>0.3.0"}
 ```
 
-Optionally, you can set different JSON encoder, by default it's Poison.
+Optionally, you can set different JSON encoder, by default it's [Jason](https://hex.pm/packages/jason).
 It's used to encode options passed to Chartkick.
 ```
 # config.exs
-config :chartkick, json_serializer: Jason
+config :chartkick, json_serializer: Poison
 ```
 
 By default when you render a chart it will return both the HTML-element and JS that initializes the chart.
