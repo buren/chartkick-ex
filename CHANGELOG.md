@@ -1,5 +1,9 @@
 ### HEAD
 
+### 0.4.0
+
+* Support `Jason` serializer configuration option
+
 ### 0.3.0
 
 * Support `defer` option [PR#8](https://github.com/buren/chartkick-ex/pull/8)

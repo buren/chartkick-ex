@@ -232,7 +232,7 @@ Chartkick.line_chart "{
 Add the following to your project :deps list:
 
 ```elixir
-{:chartkick, "~>0.3.0"}
+{:chartkick, "~>0.4.0"}
 ```
 
 Optionally, you can set different JSON encoder, by default it's Poison.
