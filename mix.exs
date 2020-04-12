@@ -2,15 +2,17 @@ defmodule Chartkick.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :chartkick,
-     version: "0.4.0",
-     elixir: "~> 1.0",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     package: package(),
-     description: description(),
-     licenses: "MIT",
-     deps: deps()]
+    [
+      app: :chartkick,
+      version: "0.4.0",
+      elixir: "~> 1.0",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      package: package(),
+      description: description(),
+      licenses: "MIT",
+      deps: deps()
+    ]
   end
 
   # Configuration for the OTP application
@@ -46,7 +48,6 @@ defmodule Chartkick.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    [{ :uuid, "~> 1.1" },
-     {:poison, "~> 3.0"}]
+    [{:elixir_uuid, "~> 1.2"}, {:poison, "~> 3.0"}]
   end
 end
