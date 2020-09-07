@@ -234,6 +234,19 @@ Add the following to your project :deps list:
 ```elixir
 {:chartkick, "~>0.4.0"}
 ```
+We use [UUID](https://github.com/zyro/elixir-uuid/) as a dependency, so you need to add it to your `extra_applications`
+```elixir
+  def application do
+    [
+    ...
+      extra_applications: [
+        ....
+        :uuid
+      ]
+    ]
+  end
+
+```
 
 Optionally, you can set different JSON encoder, by default it's Poison.
 It's used to encode options passed to Chartkick.
