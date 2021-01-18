@@ -100,6 +100,6 @@ defmodule Chartkick do
   end
 
   defp json_serializer do
-    Application.get_env(:chartkick, :json_serializer) || Jason
+    Application.get_env(:chartkick, :json_serializer) || Poison
   end
 end
