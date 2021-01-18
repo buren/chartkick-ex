@@ -13,7 +13,10 @@ Any feedback, suggestions or comments please open an issue or PR.
 All charts expect a JSON string.
 
 ```elixir
-data = Poison.encode!([[175, 60], [190, 80], [180, 75]])
+raw_data = [[175, 60], [190, 80], [180, 75]]
+data = Poison.encode!(raw_data)
+# or if you are using Jason
+data = Jason.encode!(raw_data)
 ```
 
 Line chart
@@ -56,6 +59,8 @@ Geo chart
 
 ```elixir
 Chartkick.geo_chart Poison.encode!("[[\"United States\",44],[\"Germany\",23]]")
+# or if you are using Jason
+Chartkick.geo_chart Jason.encode!("[[\"United States\",44],[\"Germany\",23]]")
 ```
 
 Timeline
@@ -228,25 +233,6 @@ Chartkick.line_chart "{
 ```
 
 ## Installation
-
-Add the following to your project :deps list:
-
-```elixir
-{:chartkick, "~>0.4.0"}
-```
-We use [UUID](https://github.com/zyro/elixir-uuid/) as a dependency, so you need to add it to your `extra_applications`
-```elixir
-  def application do
-    [
-    ...
-      extra_applications: [
-        ....
-        :uuid
-      ]
-    ]
-  end
-
-```
 
 Optionally, you can set different JSON encoder, by default it's Poison.
 It's used to encode options passed to Chartkick.
