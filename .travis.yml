@@ -2,4 +2,9 @@ language: elixir
 elixir:
   - '1.5.2'
   - '1.7.3'
-otp_release: '20.0'
+otp_release:
+  - '20.0'
+jobs:
+  include:
+    - elixir: '1.11.3'
+      otp_release: '23.0'
