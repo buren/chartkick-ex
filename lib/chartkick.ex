@@ -100,6 +100,14 @@ defmodule Chartkick do
   end
 
   defp json_serializer do
-    Application.get_env(:chartkick, :json_serializer) || Poison
+    Application.get_env(:chartkick, :json_serializer) ||
+      raise """
+      We could not find any JSON serializer configured. You can add this
+      configuration on your config file
+
+        config :chartkick, json_serializer: <JsonSerializer>
+
+      Choose your prefered json serializer and add it
+      """
   end
 end
