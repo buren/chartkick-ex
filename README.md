@@ -234,8 +234,8 @@ Chartkick.line_chart "{
 
 ## Installation
 
-Optionally, you can set different JSON encoder, by default it's Poison.
-It's used to encode options passed to Chartkick.
+You need to set JSON encoder in your config file. This encoder
+is used to encode options passed to Chartkick.
 ```
 # config.exs
 config :chartkick, json_serializer: Jason
