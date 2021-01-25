@@ -1,18 +1,15 @@
 defmodule Chartkick do
   require EEx
-  Module.put_attribute(
-    __MODULE__,
-    :poison,
-    if(Code.ensure_loaded?(Poison), do: Poison, else: nil)
-  )
-  @json_serializer Application.get_env(:chartkick, :json_serializer) || @poison
 
-  gen_chart_fn = fn (chart_type) ->
+  gen_chart_fn = fn chart_type ->
     def unquote(
-      chart_type
-      |> Macro.underscore
-      |> String.to_atom
-    )(data_source, options \\ []) do
+          chart_type
+          |> Macro.underscore()
+          |> String.to_atom()
+        )(
+          data_source,
+          options \\ []
+        ) do
       chartkick_chart(unquote(chart_type), data_source, options)
     end
   end
@@ -23,18 +20,24 @@ defmodule Chartkick do
   )
 
   def chartkick_chart(klass, data_source, options \\ []) do
-    id     = Keyword.get_lazy(options, :id, &UUID.uuid4/0)
+    id = Keyword.get_lazy(options, :id, &UUID.uuid4/0)
     height = Keyword.get(options, :height, "300px")
-    width  = Keyword.get(options, :width, "100%")
-    only   = Keyword.get(options, :only)
-    defer  = Keyword.get(options, :defer, false)
+    width = Keyword.get(options, :width, "100%")
+    only = Keyword.get(options, :only)
+    defer = Keyword.get(options, :defer, false)
+
     case only do
-      :html   -> chartkick_tag(id, height, width)
-      :script -> chartkick_script(klass, id, data_source, options, defer)
-      _       -> """
-                 #{ chartkick_tag(id, height, width) }
-                 #{ chartkick_script(klass, id, data_source, options, defer) }
-                 """
+      :html ->
+        chartkick_tag(id, height, width)
+
+      :script ->
+        chartkick_script(klass, id, data_source, options, defer)
+
+      _ ->
+        """
+        #{chartkick_tag(id, height, width)}
+        #{chartkick_script(klass, id, data_source, options, defer)}
+        """
     end
   end
 
@@ -89,10 +92,22 @@ defmodule Chartkick do
     opts
     |> Keyword.take(@options)
     |> Enum.into(%{})
-    |> @json_serializer.encode!()
+    |> json_serializer().encode!()
   end
 
   defp options_json(opts) when is_bitstring(opts) do
     opts
+  end
+
+  defp json_serializer do
+    Application.get_env(:chartkick, :json_serializer) ||
+      raise """
+      We could not find any JSON serializer configured. You can add this
+      configuration on your config file
+
+        config :chartkick, json_serializer: <JsonSerializer>
+
+      Choose your prefered json serializer and add it
+      """
   end
 end
