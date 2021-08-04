@@ -167,8 +167,8 @@ defmodule ChartkickTest do
   end
 
   test "chartkick_chart with chart options" do
-    script = Chartkick.chartkick_chart("", "{}", stacked: true, min: nil, legend: false)
-    expected  = "{\"stacked\":true,\"min\":null,\"legend\":false}"
+    script = Chartkick.chartkick_chart("", "{}", stacked: true, min: nil, legend: false, round: 2, zeros: true)
+    expected  = "{\"zeros\":true,\"stacked\":true,\"round\":2,\"min\":null,\"legend\":false}"
     assert String.contains?(script, expected)
   end
 
