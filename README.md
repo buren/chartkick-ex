@@ -179,6 +179,12 @@ Set a thousands separator - _Chart.js, Highcharts_
 Chartkick.line_chart data, decimal: ","
 ```
 
+Show insignificant zeros, useful for currency - _Chart.js, Highcharts_
+
+```elixir
+Chartkick.line_chart data, round: 2, zeros: true
+```
+
 Show a message when data is empty
 
 ```elixir
