@@ -176,6 +176,12 @@ Chartkick.line_chart data, suffix: "%"
 Set a thousands separator - _Chart.js, Highcharts_
 
 ```elixir
+Chartkick.line_chart data, thousands: ","
+```
+
+Set a decimal separator - _Chart.js, Highcharts_
+
+```elixir
 Chartkick.line_chart data, decimal: ","
 ```
 
