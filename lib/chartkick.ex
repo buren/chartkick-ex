@@ -87,7 +87,7 @@ defmodule Chartkick do
     ~w(klass id data_source options)a
   )
 
-  @options ~w(colors curve dataset decimal discrete donut download label legend library max messages min points prefix refresh stacked suffix thousands title xtitle xtype ytitle)a
+  @options ~w(colors curve dataset decimal discrete donut download label legend library max messages min points prefix refresh stacked suffix thousands title xtitle xtype ytitle zeros round)a
   defp options_json(opts) when is_list(opts) do
     opts
     |> Keyword.take(@options)
