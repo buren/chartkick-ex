@@ -3,7 +3,7 @@ elixir:
   - '1.12.2'
   - '1.7.3'
 otp_release:
-  - '20.0'
+  - '22.3.4'
 jobs:
   include:
     - elixir: '1.11.3'
