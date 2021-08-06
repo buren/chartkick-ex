@@ -1,5 +1,9 @@
 ### HEAD
 
+_No unreleased features..._
+
+### 1.0.0-rc.0
+
 * :warning: `json_serializer` must be specified since the dependency on `poison` has been removed
   ```
   # config.exs
