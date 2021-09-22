@@ -149,12 +149,6 @@ Specify legend position
 Chartkick.line_chart data, legend: "bottom"
 ```
 
-Defer chart creation until after the page loads
-
-```elixir
-Chartkick.line_chart data, defer: true
-```
-
 Donut chart
 
 ```elixir

@@ -24,19 +24,18 @@ defmodule Chartkick do
     height = Keyword.get(options, :height, "300px")
     width = Keyword.get(options, :width, "100%")
     only = Keyword.get(options, :only)
-    defer = Keyword.get(options, :defer, false)
 
     case only do
       :html ->
         chartkick_tag(id, height, width)
 
       :script ->
-        chartkick_script(klass, id, data_source, options, defer)
+        chartkick_script(klass, id, data_source, options)
 
       _ ->
         """
         #{chartkick_tag(id, height, width)}
-        #{chartkick_script(klass, id, data_source, options, defer)}
+        #{chartkick_script(klass, id, data_source, options)}
         """
     end
   end
@@ -45,14 +44,19 @@ defmodule Chartkick do
     :def,
     :chartkick_script,
     ~s[<script type="text/javascript">
-      <%= if defer do
-          chartkick_defer_create_js(klass, id, data_source, options)
-        else
-          chartkick_create_js(klass, id, data_source, options)
-        end
-      %>
+        (function() {
+          function createChart() {
+            <%= chartkick_create_js(klass, id, data_source, options) %>
+          }
+
+          if ("Chartkick" in window) {
+            createChart();
+          } else {
+            window.addEventListener("chartkick:load", createChart, true);
+          }
+        })();
     </script>],
-    ~w(klass id data_source options defer)a
+    ~w(klass id data_source options)a
   )
 
   EEx.function_from_string(
@@ -66,24 +70,6 @@ defmodule Chartkick do
     :def,
     :chartkick_create_js,
     ~s[new Chartkick.<%= klass %>('<%= id %>', <%= data_source %>, <%= options_json(options) %>);],
-    ~w(klass id data_source options)a
-  )
-
-  EEx.function_from_string(
-    :def,
-    :chartkick_defer_create_js,
-    ~s[
-      (function() {
-        var createChart = function() { <%= chartkick_create_js(klass, id, data_source, options) %> };
-        if (window.addEventListener) {
-          window.addEventListener("load", createChart, true);
-        } else if (window.attachEvent) {
-          window.attachEvent("onload", createChart);
-        } else {
-          createChart();
-        }
-      })();
-    ],
     ~w(klass id data_source options)a
   )
 

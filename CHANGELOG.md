@@ -1,6 +1,7 @@
 ### HEAD
 
-_No unreleased features..._
+* Remove defer option as we now automatically defer if you defer loading the
+  Chartkick javascript library.
 
 ### 1.0.0-rc.0
 
