@@ -94,56 +94,38 @@ defmodule ChartkickTest do
   end
 
   test "chartkick_script contains script open tag" do
-    script = Chartkick.chartkick_script("", "", "{}", "{}", false)
+    script = Chartkick.chartkick_script("", "", "{}", "{}")
     expected = "<script type=\"text/javascript\">"
     assert String.contains?(script, expected)
   end
 
   test "chartkick_script ends with closing script tag" do
-    script = Chartkick.chartkick_script("", "", "{}", "{}", false)
+    script = Chartkick.chartkick_script("", "", "{}", "{}")
     expected = "</script>"
     assert String.ends_with?(script, expected)
   end
 
   test "chartkick_script accepts options as string" do
-    script = Chartkick.chartkick_script("", "", "{}", "{}", false)
+    script = Chartkick.chartkick_script("", "", "{}", "{}")
     expected = "</script>"
     assert String.ends_with?(script, expected)
   end
 
   test "chartkick_script accepts options as keyword list" do
-    script = Chartkick.chartkick_script("", "", "{}", [title: "FooBarBaz"], false)
+    script = Chartkick.chartkick_script("", "", "{}", title: "FooBarBaz")
     expected = "\"title\":\"FooBarBaz\""
     assert String.contains?(script, expected)
   end
 
-  test "chartkick_script defer adds event listener JS code" do
-    script = Chartkick.chartkick_script("LineChart", "", "{}", "{}", true)
-    expected = "window.addEventListener(\"load\", createChart, true);"
-    assert String.contains?(script, expected)
-  end
-
-  test "chartkick_script defer adds createChart JS function" do
-    script = Chartkick.chartkick_script("LineChart", "", "{}", "{}", true)
-    expected = "var createChart = function() { new Chartkick.LineChart('', {}, {}); };"
-    assert String.contains?(script, expected)
-  end
-
-  test "chartkick_script defer returns script with correct chart class" do
-    script = Chartkick.chartkick_script("LineChart", "", "{}", "{}", true)
-    expected = "new Chartkick.LineChart"
-    assert String.contains?(script, expected)
-  end
-
   test "chartkick_script returns script with correct chart class" do
-    script = Chartkick.chartkick_script("LineChart", "", "{}", "{}", false)
+    script = Chartkick.chartkick_script("LineChart", "", "{}", "{}")
     expected = "new Chartkick.LineChart"
     assert String.contains?(script, expected)
   end
 
   test "chartkick_script returns script with custom id set" do
     id = "my-chart-id"
-    script = Chartkick.chartkick_script("klass", id, "{}", "{}", false)
+    script = Chartkick.chartkick_script("klass", id, "{}", "{}")
     expected  = "new Chartkick.klass('#{id}"
     assert String.contains?(script, expected)
   end
@@ -169,12 +151,6 @@ defmodule ChartkickTest do
   test "chartkick_chart with chart options" do
     script = Chartkick.chartkick_chart("", "{}", stacked: true, min: nil, legend: false, round: 2, zeros: true)
     expected  = "{\"zeros\":true,\"stacked\":true,\"round\":2,\"min\":null,\"legend\":false}"
-    assert String.contains?(script, expected)
-  end
-
-  test "chartkick_chart with chart defer option" do
-    script = Chartkick.chartkick_chart("", "{}", defer: true)
-    expected = "window.addEventListener(\"load\", createChart, true);"
     assert String.contains?(script, expected)
   end
 
