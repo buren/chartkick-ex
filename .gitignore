@@ -1,7 +1,0 @@
-/_build
-/deps
-erl_crash.dump
-*.ez
-/tmp
-
-chartkick-*.tar
