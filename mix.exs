@@ -4,7 +4,7 @@ defmodule Chartkick.Mixfile do
   def project do
     [
       app: :chartkick,
-      version: "1.0.0-rc.0",
+      version: "1.0.0",
       elixir: "~> 1.0",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
