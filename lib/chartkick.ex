@@ -20,7 +20,7 @@ defmodule Chartkick do
   )
 
   def chartkick_chart(klass, data_source, options \\ []) do
-    id = Keyword.get_lazy(options, :id, &UUID.uuid4/0)
+    id = Keyword.get_lazy(options, :id, &generate_id_for_chart/0)
     height = Keyword.get(options, :height, "300px")
     width = Keyword.get(options, :width, "100%")
     only = Keyword.get(options, :only)
@@ -38,6 +38,11 @@ defmodule Chartkick do
         #{chartkick_script(klass, id, data_source, options)}
         """
     end
+  end
+
+  defp generate_id_for_chart do
+    length = 36
+    :crypto.strong_rand_bytes(length) |> Base.url_encode64 |> binary_part(0, length)
   end
 
   EEx.function_from_string(
